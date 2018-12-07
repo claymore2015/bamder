@@ -3,7 +3,9 @@ package com.claymore.bamder.cybersecurity.assets.controller;
 import com.claymore.bamder.common.domain.BaseResponse;
 import com.claymore.bamder.common.domain.CyberRequest;
 import com.claymore.bamder.common.domain.PageResult;
+import com.claymore.bamder.cybersecurity.assets.domain.AssetsCityResponse;
 import com.claymore.bamder.cybersecurity.assets.domain.AssetsDashboardResponse;
+import com.claymore.bamder.cybersecurity.assets.domain.AssetsDistrictResponse;
 import com.claymore.bamder.cybersecurity.assets.entity.*;
 import com.claymore.bamder.cybersecurity.assets.repository.*;
 import com.claymore.bamder.cybersecurity.assets.support.AssetsSupport;
@@ -134,6 +136,20 @@ public class AssetsController {
         return new BaseResponse<>(assetsTypes);
     }
 
-    //public BaseResponse<List<>>
+    @PostMapping("/city")
+    @ApiOperation("地图根据省查询各个市的资产数量")
+    public BaseResponse<List<AssetsCityResponse>> cityMap(@RequestBody CyberRequest cyberRequest) {
+        List<AssetsSurvayEntity> surveyEntities = assetsSurvayRepository.findByProvinceAndCityAndDistrict(cyberRequest.getProvinceId(), null
+                , null);
+        return new BaseResponse<>(AssetsSupport.transfer2CityResponseList(surveyEntities));
+    }
+
+    @PostMapping("/district")
+    @ApiOperation("地图根据省查询各个市的资产数量")
+    public BaseResponse<List<AssetsDistrictResponse>> districtMap(@RequestBody CyberRequest cyberRequest) {
+        List<AssetsSurvayEntity> surveyEntities = assetsSurvayRepository.findByProvinceAndCityAndDistrict(cyberRequest.getProvinceId(), cyberRequest.getCityId()
+                , null);
+        return new BaseResponse<>(AssetsSupport.transfer2DistrictResponseList(surveyEntities));
+    }
 
 }

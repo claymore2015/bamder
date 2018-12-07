@@ -5,6 +5,7 @@ import com.claymore.bamder.cybersecurity.gj.entity.ChuzhiWgxwEntity;
 import com.claymore.bamder.cybersecurity.gj.respository.ChuzhiWgxwRepository;
 import com.claymore.bamder.cybersecurity.wgxm.domain.request.TimeTrendRequest;
 import com.claymore.bamder.cybersecurity.wgxm.domain.request.WgxmRequest;
+import com.claymore.bamder.cybersecurity.wgxm.domain.response.WgxmCityResponse;
 import com.claymore.bamder.cybersecurity.wgxm.domain.response.WgxmResponse;
 import com.claymore.bamder.cybersecurity.wgxm.domain.response.WgxmTimeTrendResponse;
 import com.claymore.bamder.cybersecurity.wgxm.domain.response.WgxwEventResponse;
@@ -62,6 +63,19 @@ public class WgxmController {
    @PostMapping("/event")
    @ApiOperation(value = "违规泄密态势事件")
    public BaseResponse<WgxwEventResponse> event(WgxmRequest request) {
+       Date staticDate = new DateTime(new Date()).minusDays(request.getDays()).withTimeAtStartOfDay().toDate();
+       List<ChuzhiWgxwEntity> wgxwEntities = wgxwRepository.findByProvinceAndCityAndDistrictAndDay(request.getProvinceId(), request.getCityId(), request.getDistrictId(), staticDate);
+       //TODO NEED FIX, 违规泄密态势的事件统计
+       return null;
+   }
+
+   @PostMapping("/city")
+   @ApiOperation(value = "地图城市数据")
+   public BaseResponse<List<WgxmCityResponse>> cityMap(WgxmRequest request) {
+       Date staticDate = new DateTime(new Date()).minusDays(request.getDays()).withTimeAtStartOfDay().toDate();
+       List<ChuzhiWgxwEntity> chuzhi = wgxwRepository.findByProvinceAndCityAndDistrictAndDay(request.getProvinceId(), null, null, staticDate);
+       List<AlarmWgxwEntity> wgxwEntities = alarmWgxwRepository.findByProvinceAndCityAndDistrictAndDay(request.getProvinceId(), null, null, staticDate);
+       List<AlarmWgxwTop10Entity> wgxwTop10Entities = alarmWgxwTop10Repository.findByProvinceAndCityAndDistrictAndDay(request.getProvinceId(), null, null, staticDate);
        return null;
    }
 

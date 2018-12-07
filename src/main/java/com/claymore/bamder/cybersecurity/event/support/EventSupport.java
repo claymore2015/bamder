@@ -1,23 +1,14 @@
 package com.claymore.bamder.cybersecurity.event.support;
 
-import com.claymore.bamder.cybersecurity.event.entity.EventsInfoEntity;
-import com.claymore.bamder.cybersecurity.event.enums.ChuzhiStatus;
-import com.claymore.bamder.cybersecurity.event.enums.EventLevel;
-import com.claymore.bamder.cybersecurity.event.enums.EventType;
-import com.claymore.bamder.cybersecurity.gj.domain.event.response.Event;
-import com.claymore.bamder.cybersecurity.gj.domain.event.response.EventResponse;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
 /**
  * @author li.zhuo
  * @create 2018/11/28 9:33 PM
  * @since 1.0.0
  */
+@Deprecated
 public class EventSupport {
 
-    public static EventResponse transfer2EventResponse(List<EventsInfoEntity> eventsInfo) {
+    /*public static EventResponse transfer2EventResponse(List<EventsInfoEntity> eventsInfo) {
         EventResponse response = new EventResponse();
         Long eventType1 = eventsInfo.stream().filter(eventsInfoEntity -> eventsInfoEntity.getEventType() == 1).collect(Collectors.counting());
         Long eventType2 = eventsInfo.size() - eventType1;
@@ -58,7 +49,7 @@ public class EventSupport {
         event.setContent(entity.getContent());
         event.setEventTime(entity.getEventTime());
         return event;
-    }
+    }*/
 
 
 }

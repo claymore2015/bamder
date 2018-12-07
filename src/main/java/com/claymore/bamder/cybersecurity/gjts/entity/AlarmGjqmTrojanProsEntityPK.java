@@ -1,4 +1,4 @@
-package com.claymore.bamder.common.entity;
+package com.claymore.bamder.cybersecurity.gjts.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Id;

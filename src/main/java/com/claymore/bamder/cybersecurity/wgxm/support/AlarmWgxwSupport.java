@@ -1,6 +1,7 @@
 package com.claymore.bamder.cybersecurity.wgxm.support;
 
 import com.claymore.bamder.common.util.PercentUtil;
+import com.claymore.bamder.cybersecurity.gj.domain.event.response.EventPoint;
 import com.claymore.bamder.cybersecurity.gj.entity.ChuzhiWgxwEntity;
 import com.claymore.bamder.cybersecurity.wgxm.domain.response.SourObjNumber;
 import com.claymore.bamder.cybersecurity.wgxm.domain.response.UnitNumber;
@@ -127,6 +128,27 @@ public class AlarmWgxwSupport {
             responses.add(response);
         });
         return responses;
+    }
+
+    public static List<EventPoint> generatePoints() {
+        List<EventPoint> points = Lists.newArrayList();
+        EventPoint point1 = new EventPoint();
+        point1.setPointId(1);
+        point1.setPointName("违规告警");
+        EventPoint point2 = new EventPoint();
+        point2.setPointId(2);
+        point2.setPointName("非密内容");
+        EventPoint point3 = new EventPoint();
+        point3.setPointId(3);
+        point3.setPointName("涉密内容");
+        EventPoint point4 = new EventPoint();
+        point4.setPointId(4);
+        point4.setPointName("泄密事件");
+        points.add(point1);
+        points.add(point2);
+        points.add(point3);
+        points.add(point4);
+        return points;
     }
 
 }

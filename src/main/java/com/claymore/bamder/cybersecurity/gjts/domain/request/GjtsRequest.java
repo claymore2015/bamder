@@ -1,5 +1,6 @@
 package com.claymore.bamder.cybersecurity.gjts.domain.request;
 
+import com.claymore.bamder.common.domain.CyberRequest;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +11,6 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-public class GjtsRequest {
+public class GjtsRequest extends CyberRequest {
     private Integer days;
-    //TODO 区域
 }

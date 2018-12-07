@@ -1,4 +1,4 @@
-package com.claymore.bamder.common.entity;
+package com.claymore.bamder.cybersecurity.gjts.entity;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -9,11 +9,11 @@ import java.sql.Date;
  * @since 1.0.0
  */
 @Entity
-@Table(name = "alarm_gjqm_eyi_pros", schema = "test", catalog = "")
-@IdClass(AlarmGjqmEyiProsEntityPK.class)
-public class AlarmGjqmEyiProsEntity {
+@Table(name = "alarm_gjqm_trojan_pros")
+@IdClass(AlarmGjqmTrojanProsEntityPK.class)
+public class AlarmGjqmTrojanProsEntity {
     private Date day;
-    private String proid;
+    private String trojanid;
     private String name;
     private Byte isSim;
     private Long alarmCount;
@@ -29,13 +29,13 @@ public class AlarmGjqmEyiProsEntity {
     }
 
     @Id
-    @Column(name = "proid")
-    public String getProid() {
-        return proid;
+    @Column(name = "trojanid")
+    public String getTrojanid() {
+        return trojanid;
     }
 
-    public void setProid(String proid) {
-        this.proid = proid;
+    public void setTrojanid(String trojanid) {
+        this.trojanid = trojanid;
     }
 
     @Basic
@@ -73,10 +73,10 @@ public class AlarmGjqmEyiProsEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        AlarmGjqmEyiProsEntity that = (AlarmGjqmEyiProsEntity) o;
+        AlarmGjqmTrojanProsEntity that = (AlarmGjqmTrojanProsEntity) o;
 
         if (day != null ? !day.equals(that.day) : that.day != null) return false;
-        if (proid != null ? !proid.equals(that.proid) : that.proid != null) return false;
+        if (trojanid != null ? !trojanid.equals(that.trojanid) : that.trojanid != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (isSim != null ? !isSim.equals(that.isSim) : that.isSim != null) return false;
         if (alarmCount != null ? !alarmCount.equals(that.alarmCount) : that.alarmCount != null) return false;
@@ -87,7 +87,7 @@ public class AlarmGjqmEyiProsEntity {
     @Override
     public int hashCode() {
         int result = day != null ? day.hashCode() : 0;
-        result = 31 * result + (proid != null ? proid.hashCode() : 0);
+        result = 31 * result + (trojanid != null ? trojanid.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (isSim != null ? isSim.hashCode() : 0);
         result = 31 * result + (alarmCount != null ? alarmCount.hashCode() : 0);

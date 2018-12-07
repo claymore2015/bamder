@@ -1,4 +1,4 @@
-package com.claymore.bamder.common.entity;
+package com.claymore.bamder.cybersecurity.gjts.entity;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -9,9 +9,9 @@ import java.sql.Date;
  * @since 1.0.0
  */
 @Entity
-@Table(name = "alarm_gjqm_eyi_ips", schema = "test", catalog = "")
-@IdClass(AlarmGjqmEyiIpsEntityPK.class)
-public class AlarmGjqmEyiIpsEntity {
+@Table(name = "alarm_gjqm_bug_ips")
+@IdClass(AlarmGjqmBugIpsEntityPK.class)
+public class AlarmGjqmBugIpsEntity {
     private Date day;
     private long sourip;
     private long destip;
@@ -84,7 +84,7 @@ public class AlarmGjqmEyiIpsEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        AlarmGjqmEyiIpsEntity that = (AlarmGjqmEyiIpsEntity) o;
+        AlarmGjqmBugIpsEntity that = (AlarmGjqmBugIpsEntity) o;
 
         if (sourip != that.sourip) return false;
         if (destip != that.destip) return false;

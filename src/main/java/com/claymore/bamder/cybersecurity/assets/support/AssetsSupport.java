@@ -22,19 +22,29 @@ import static java.util.stream.Collectors.groupingBy;
  */
 public class AssetsSupport {
 
-    //TODO FIX 数据统计有误
     public static List<AssetsSurvayResponse> transfer2SurvayResponseList(List<AssetsSurvayEntity> survayEntities, List<DictEntity> assetsTypes) {
-        return survayEntities.stream().map(AssetsSupport::transfer2SurvayResponse).map(assetResponse -> AssetsSupport.fillAssetsTypeName(assetResponse, assetsTypes)).collect(Collectors.toList());
+        List<AssetsSurvayResponse> responseList = Lists.newArrayList();
+        Map<Integer, List<AssetsSurvayEntity>> collect = survayEntities.stream().collect(Collectors.groupingBy(AssetsSurvayEntity::getAssetsType));
+        collect.entrySet().forEach(e -> {
+            AssetsSurvayResponse response = new AssetsSurvayResponse();
+            response.setAssetsTypeId(e.getKey());
+            response.setAmount(e.getValue().stream().map(a -> a.getCount()).reduce(Integer::sum).orElse(0));
+            response.setRunningAmount(e.getValue().stream().map(a -> a.getCountS1()).reduce(Integer::sum).orElse(0));
+            response.setStopAmount(e.getValue().stream().map(a -> a.getCountS2()).reduce(Integer::sum).orElse(0));
+            fillAssetsTypeName(response, assetsTypes);
+            responseList.add(response);
+        });
+        return responseList;
     }
 
-    public static AssetsSurvayResponse transfer2SurvayResponse(AssetsSurvayEntity survayEntitiy) {
+    /*public static AssetsSurvayResponse transfer2SurvayResponse(AssetsSurvayEntity survayEntitiy) {
         AssetsSurvayResponse response = new AssetsSurvayResponse();
         response.setAmount(survayEntitiy.getCount());
         response.setAssetsTypeId(survayEntitiy.getAssetsType());
         response.setRunningAmount(survayEntitiy.getCountS1());
         response.setStopAmount(survayEntitiy.getCountS2());
         return response;
-    }
+    }*/
 
     public static AssetsSurvayResponse fillAssetsTypeName(AssetsSurvayResponse response, List<DictEntity> assetsTypes) {
         Optional<DictEntity> any = assetsTypes.stream().filter(assetType -> assetType.getValue().equalsIgnoreCase(String.valueOf(response.getAssetsTypeId()))).findAny();
@@ -98,6 +108,14 @@ public class AssetsSupport {
     }
 
     public static List<AssetDataResponse> transfer2DataResponseList(List<AssetsDataEntity> assetsDataEntities, List<DictEntity> assetsDataTypes) {
+        /*List<AssetDataResponse> responseList = Lists.newArrayList();
+        Map<Integer, List<AssetsDataEntity>> collect = assetsDataEntities.stream().collect(Collectors.groupingBy(AssetsDataEntity::getAssetsDataType));
+        collect.entrySet().forEach(e -> {
+            AssetDataResponse response = new AssetDataResponse();
+            response.setAssetDataTypeId(e.getKey());
+            response.set
+            responseList.add(response);
+        });*/
         return  assetsDataEntities.stream().map(AssetsSupport::transfer2DataResponse).map(assetDataResponse -> fillAssetDataTypeName(assetDataResponse, assetsDataTypes)).collect(Collectors.toList());
     }
 
@@ -111,16 +129,26 @@ public class AssetsSupport {
     }
 
     public static List<AssetsAccountResponse> transfer2AccountResponseList(List<AssetsAccountEntity> accountEntities, int totalCount, List<DictEntity> accountsType) {
-        return accountEntities.stream().map(accountEntity -> transfer2AccountResponse(accountEntity, totalCount)).map(assetsAccountResponse -> fillAssetAccountTypeName(assetsAccountResponse, accountsType)).collect(Collectors.toList());
+        List<AssetsAccountResponse> responseList = Lists.newArrayList();
+        Map<Integer, List<AssetsAccountEntity>> collect = accountEntities.stream().collect(Collectors.groupingBy(AssetsAccountEntity::getAccountType));
+        collect.entrySet().forEach(e -> {
+            AssetsAccountResponse response = new AssetsAccountResponse();
+            response.setAccountTypeId(e.getKey());
+            response.setAmount(e.getValue().stream().map(a -> a.getCount()).reduce(Integer::sum).orElse(0));
+            fillAssetAccountTypeName(response, accountsType);
+            response.setPercent(PercentUtil.longDivideFormat((long)response.getAmount(), (long)totalCount));
+            responseList.add(response);
+        });
+        return responseList;
     }
 
-    public static AssetsAccountResponse transfer2AccountResponse(AssetsAccountEntity accountEntity, int totalCount) {
+/*    public static AssetsAccountResponse transfer2AccountResponse(AssetsAccountEntity accountEntity, int totalCount) {
         AssetsAccountResponse response = new AssetsAccountResponse();
         response.setAccountTypeId(accountEntity.getAccountType());
         response.setAmount((long) accountEntity.getCount());
         response.setPercent(PercentUtil.format(new BigDecimal(accountEntity.getCount()).divide(new BigDecimal(totalCount), 2, BigDecimal.ROUND_HALF_UP).doubleValue()));
         return response;
-    }
+    }*/
 
     public static List<AssetsFileResponse> transfer2FileResponseList(List<AssetsFileEntity> fileEntities, int totalCount, List<DictEntity> filesType) {
         return fileEntities.stream().map(entity -> tansfer2FileReponse(entity, totalCount)).map(assetsFileResponse -> fillAssetFileTypeName(assetsFileResponse, filesType)).collect(Collectors.toList());
@@ -131,6 +159,41 @@ public class AssetsSupport {
         response.setCount((long) entity.getCount());
         response.setFileTypeId(entity.getFileType());
         response.setPercent(PercentUtil.format(new BigDecimal(entity.getCount()).divide(new BigDecimal(totalCount), 2, BigDecimal.ROUND_HALF_UP).doubleValue()));
+        return response;
+    }
+
+
+    public static List<AssetsCityResponse> transfer2CityResponseList(List<AssetsSurvayEntity> surveyEntities) {
+        Map<String, List<AssetsSurvayEntity>> collect = surveyEntities.stream().collect(Collectors.groupingBy(AssetsSurvayEntity::getCity));
+        return collect.entrySet().stream().map(e -> transfer2AssetsCityResponse(e.getKey(), e.getValue())).collect(Collectors.toList());
+    }
+
+    public static AssetsCityResponse transfer2AssetsCityResponse(String city, List<AssetsSurvayEntity> entities) {
+        AssetsCityResponse response = new AssetsCityResponse();
+        response.setCityId(city);
+        response.setAssertType1(entities.stream().filter(e -> e.getAssetsType() == 1).map(e -> e.getCount()).reduce(0, Integer::sum));
+        response.setAssertType2(entities.stream().filter(e -> e.getAssetsType() == 2).map(e -> e.getCount()).reduce(0, Integer::sum));
+        response.setAssertType3(entities.stream().filter(e -> e.getAssetsType() == 3).map(e -> e.getCount()).reduce(0, Integer::sum));
+        response.setAssertType4(entities.stream().filter(e -> e.getAssetsType() == 4).map(e -> e.getCount()).reduce(0, Integer::sum));
+        response.setAssertType5(entities.stream().filter(e -> e.getAssetsType() == 5).map(e -> e.getCount()).reduce(0, Integer::sum));
+        return response;
+    }
+
+
+
+    public static List<AssetsDistrictResponse> transfer2DistrictResponseList(List<AssetsSurvayEntity> surveyEntities) {
+        Map<String, List<AssetsSurvayEntity>> collect = surveyEntities.stream().collect(Collectors.groupingBy(AssetsSurvayEntity::getDistrict));
+        return collect.entrySet().stream().map(e -> transfer2AssetsDistrictResponse(e.getKey(), e.getValue())).collect(Collectors.toList());
+    }
+
+    public static AssetsDistrictResponse transfer2AssetsDistrictResponse(String district, List<AssetsSurvayEntity> entities) {
+        AssetsDistrictResponse response = new AssetsDistrictResponse();
+        response.setDistrcitId(district);
+        response.setAssertType1(entities.stream().filter(e -> e.getAssetsType() == 1).map(e -> e.getCount()).reduce(0, Integer::sum));
+        response.setAssertType2(entities.stream().filter(e -> e.getAssetsType() == 2).map(e -> e.getCount()).reduce(0, Integer::sum));
+        response.setAssertType3(entities.stream().filter(e -> e.getAssetsType() == 3).map(e -> e.getCount()).reduce(0, Integer::sum));
+        response.setAssertType4(entities.stream().filter(e -> e.getAssetsType() == 4).map(e -> e.getCount()).reduce(0, Integer::sum));
+        response.setAssertType5(entities.stream().filter(e -> e.getAssetsType() == 5).map(e -> e.getCount()).reduce(0, Integer::sum));
         return response;
     }
 }

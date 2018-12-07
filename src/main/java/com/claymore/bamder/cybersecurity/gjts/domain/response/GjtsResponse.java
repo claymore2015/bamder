@@ -46,15 +46,15 @@ public class GjtsResponse {
     //TODO 图上数据
 
     @ApiModelProperty("无风险")
-    private Long level1;
+    private long level1;
     @ApiModelProperty("一般级")
-    private Long level2;
+    private long level2;
     @ApiModelProperty("关注级")
-    private Long level3;
+    private long level3;
     @ApiModelProperty("严重级")
-    private Long level4;
+    private long level4;
     @ApiModelProperty("紧急级")
-    private Long level5;
+    private long level5;
 
 
     private List<GjActionResponse> gjActionResponses;

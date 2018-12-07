@@ -1,4 +1,4 @@
-package com.claymore.bamder.common.entity;
+package com.claymore.bamder.cybersecurity.gjts.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
@@ -10,10 +10,9 @@ import java.sql.Date;
  * @create 2018/11/12 11:15 PM
  * @since 1.0.0
  */
-public class AlarmGjqmBugIpsEntityPK implements Serializable {
+public class AlarmGjqmBugProsEntityPK implements Serializable {
     private Date day;
-    private long sourip;
-    private long destip;
+    private String bugid;
 
     @Column(name = "day")
     @Id
@@ -25,24 +24,14 @@ public class AlarmGjqmBugIpsEntityPK implements Serializable {
         this.day = day;
     }
 
-    @Column(name = "sourip")
+    @Column(name = "bugid")
     @Id
-    public long getSourip() {
-        return sourip;
+    public String getBugid() {
+        return bugid;
     }
 
-    public void setSourip(long sourip) {
-        this.sourip = sourip;
-    }
-
-    @Column(name = "destip")
-    @Id
-    public long getDestip() {
-        return destip;
-    }
-
-    public void setDestip(long destip) {
-        this.destip = destip;
+    public void setBugid(String bugid) {
+        this.bugid = bugid;
     }
 
     @Override
@@ -50,11 +39,10 @@ public class AlarmGjqmBugIpsEntityPK implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        AlarmGjqmBugIpsEntityPK that = (AlarmGjqmBugIpsEntityPK) o;
+        AlarmGjqmBugProsEntityPK that = (AlarmGjqmBugProsEntityPK) o;
 
-        if (sourip != that.sourip) return false;
-        if (destip != that.destip) return false;
         if (day != null ? !day.equals(that.day) : that.day != null) return false;
+        if (bugid != null ? !bugid.equals(that.bugid) : that.bugid != null) return false;
 
         return true;
     }
@@ -62,8 +50,7 @@ public class AlarmGjqmBugIpsEntityPK implements Serializable {
     @Override
     public int hashCode() {
         int result = day != null ? day.hashCode() : 0;
-        result = 31 * result + (int) (sourip ^ (sourip >>> 32));
-        result = 31 * result + (int) (destip ^ (destip >>> 32));
+        result = 31 * result + (bugid != null ? bugid.hashCode() : 0);
         return result;
     }
 }

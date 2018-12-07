@@ -1,4 +1,4 @@
-package com.claymore.bamder.common.entity;
+package com.claymore.bamder.cybersecurity.gjts.entity;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -9,7 +9,7 @@ import java.sql.Date;
  * @since 1.0.0
  */
 @Entity
-@Table(name = "alarm_gjqm_trojan_ips", schema = "test", catalog = "")
+@Table(name = "alarm_gjqm_trojan_ips")
 @IdClass(AlarmGjqmTrojanIpsEntityPK.class)
 public class AlarmGjqmTrojanIpsEntity {
     private Date day;

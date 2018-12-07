@@ -1,4 +1,4 @@
-package com.claymore.bamder.common.entity;
+package com.claymore.bamder.cybersecurity.gjts.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
@@ -10,7 +10,7 @@ import java.sql.Date;
  * @create 2018/11/12 11:15 PM
  * @since 1.0.0
  */
-public class AlarmGjqmUnknownIpsEntityPK implements Serializable {
+public class AlarmGjqmTrojanIpsEntityPK implements Serializable {
     private Date day;
     private long sourip;
     private long destip;
@@ -50,7 +50,7 @@ public class AlarmGjqmUnknownIpsEntityPK implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        AlarmGjqmUnknownIpsEntityPK that = (AlarmGjqmUnknownIpsEntityPK) o;
+        AlarmGjqmTrojanIpsEntityPK that = (AlarmGjqmTrojanIpsEntityPK) o;
 
         if (sourip != that.sourip) return false;
         if (destip != that.destip) return false;

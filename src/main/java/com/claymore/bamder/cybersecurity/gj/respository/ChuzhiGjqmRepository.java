@@ -16,4 +16,7 @@ public interface ChuzhiGjqmRepository extends JpaRepository<ChuzhiGjqmEntity, Ch
 
     @Query(value = "select e from ChuzhiGjqmEntity e where e.province=:province and (:city is null or e.city=:city) and (:district is null or e.district=:district) and e.day >=:startDay and e.day <=:endDay ")
     List<ChuzhiGjqmEntity> findByProvinceAndCityAndDistrictBetweenDay(@Param("province") String province, @Param("city") String city, @Param("district") String district, @Param("startDay") Date startDay, @Param("endDay") Date endDay);
+
+    @Query(value = "select e from ChuzhiGjqmEntity e where  e.day >=:day ")
+    List<ChuzhiGjqmEntity> findByDay(@Param("day") Date day);
 }

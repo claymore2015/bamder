@@ -13,11 +13,11 @@ import lombok.Data;
 @Data
 public class AssetsAccountResponse {
     @ApiModelProperty(value = "账号类型Id")
-    private Integer accountTypeId;
+    private int accountTypeId;
     @ApiModelProperty("账号类型名")
     private String accountName;
     @ApiModelProperty("数量")
-    private Long amount;
+    private int amount;
     @ApiModelProperty("占比")
     private String percent;
 }

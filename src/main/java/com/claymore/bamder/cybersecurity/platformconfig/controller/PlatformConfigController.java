@@ -4,7 +4,6 @@ import com.claymore.bamder.common.domain.BaseResponse;
 import com.claymore.bamder.common.domain.PageResult;
 import com.claymore.bamder.cybersecurity.platformconfig.entity.PlatformConfigEntity;
 import com.claymore.bamder.cybersecurity.platformconfig.repository.PlatformConfigRepository;
-import com.claymore.bamder.cybersecurity.trojan.entity.TrojanProsEntity;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -42,7 +41,7 @@ public class PlatformConfigController {
     }
 
     @GetMapping("/{pageSize}/{pageNo}")
-    public BaseResponse<PageResult<TrojanProsEntity>> page(@PathVariable("pageSize") int pageSize, @PathVariable("pageNo") int pageNo) {
+    public BaseResponse<PageResult<PlatformConfigEntity>> page(@PathVariable("pageSize") int pageSize, @PathVariable("pageNo") int pageNo) {
         Page<PlatformConfigEntity> page = platformConfigRepository.findAll(PageRequest.of(pageNo - 1, pageSize));
         PageResult<PlatformConfigEntity> result = new PageResult<PlatformConfigEntity>();
         result.setContent(page.getContent());
