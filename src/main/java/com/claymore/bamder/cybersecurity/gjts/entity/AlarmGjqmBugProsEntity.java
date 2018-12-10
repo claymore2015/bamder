@@ -15,7 +15,7 @@ public class AlarmGjqmBugProsEntity {
     private Date day;
     private String bugid;
     private String name;
-    private Byte isSim;
+    private Integer isSim;
     private Long alarmCount;
 
     @Id
@@ -50,11 +50,11 @@ public class AlarmGjqmBugProsEntity {
 
     @Basic
     @Column(name = "is_sim")
-    public Byte getIsSim() {
+    public Integer getIsSim() {
         return isSim;
     }
 
-    public void setIsSim(Byte isSim) {
+    public void setIsSim(Integer isSim) {
         this.isSim = isSim;
     }
 

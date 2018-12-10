@@ -30,20 +30,18 @@ public class GjtsResponse {
     private Long unknownTotal;
 
     @ApiModelProperty(value = "恶意程序个数")
-    private Long prosNum;
+    private int prosNum;
     @ApiModelProperty(value = "木马个数")
-    private Long trojanNum;
+    private int trojanNum;
     @ApiModelProperty(value = "漏洞个数")
-    private Long bugNum;
+    private int bugNum;
     @ApiModelProperty(value = "确定泄密事件")
-    private Long xmEventNum;
+    private long xmEventNum;
 
 
     private List<GjSoureResponse> gjSoureResponses;
     private List<GjIpResponse> gjIpResponses;
     private List<TargetIpResponse> targetIpResponses;
-    //TODO traget area
-    //TODO 图上数据
 
     @ApiModelProperty("无风险")
     private long level1;

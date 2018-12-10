@@ -86,37 +86,40 @@ public class AssetsSupport {
             response.setUnitId(s);
             unitEntityList.forEach(assetUnitEntity -> {
                 if (assetUnitEntity.getAssetsType() == 1) {
-                    response.setAssetsType1((long) assetUnitEntity.getCount());
+                    response.setAssetsType1(response.getAssetsType1() + assetUnitEntity.getCount());
                 } else if (assetUnitEntity.getAssetsType() == 2) {
-                    response.setAssetsType2((long) assetUnitEntity.getCount());
+                    response.setAssetsType2(response.getAssetsType2() + assetUnitEntity.getCount());
                 } else if (assetUnitEntity.getAssetsType() == 3) {
-                    response.setAssetsType3((long) assetUnitEntity.getCount());
+                    response.setAssetsType3(response.getAssetsType3() + assetUnitEntity.getCount());
                 } else if (assetUnitEntity.getAssetsType() == 4) {
-                    response.setAssetsType4((long) assetUnitEntity.getCount());
+                    response.setAssetsType4(response.getAssetsType4() + assetUnitEntity.getCount());
                 } else if (assetUnitEntity.getAssetsType() == 5) {
-                    response.setAssetsType5((long) assetUnitEntity.getCount());
+                    response.setAssetsType5(response.getAssetsType5() + assetUnitEntity.getCount());
                 }
                 //response.setUnitName();
                 Optional<UnitsEntity> first = unitsEntities.stream().filter(unit -> unit.getUnitId() == Long.valueOf(s)).findFirst();
                 if (first.isPresent()) {
                     response.setUnitName(first.get().getUnitName());
                 }
-                responses.add(response);
             });
+            responses.add(response);
         });
         return responses;
     }
 
     public static List<AssetDataResponse> transfer2DataResponseList(List<AssetsDataEntity> assetsDataEntities, List<DictEntity> assetsDataTypes) {
-        /*List<AssetDataResponse> responseList = Lists.newArrayList();
+        List<AssetDataResponse> responseList = Lists.newArrayList();
         Map<Integer, List<AssetsDataEntity>> collect = assetsDataEntities.stream().collect(Collectors.groupingBy(AssetsDataEntity::getAssetsDataType));
         collect.entrySet().forEach(e -> {
             AssetDataResponse response = new AssetDataResponse();
             response.setAssetDataTypeId(e.getKey());
-            response.set
+            response.setWeekCount(e.getValue().stream().collect(Collectors.summingDouble(v -> v.getWeekCount().doubleValue())));
+            response.setWeekAvgCount(e.getValue().stream().collect(Collectors.summingDouble(v -> v.getWeekAvgCount().doubleValue())));
+            response.setCumulateCount(e.getValue().stream().collect(Collectors.summingDouble(v -> v.getCumulateCount().doubleValue())));
+            fillAssetDataTypeName(response, assetsDataTypes);
             responseList.add(response);
-        });*/
-        return  assetsDataEntities.stream().map(AssetsSupport::transfer2DataResponse).map(assetDataResponse -> fillAssetDataTypeName(assetDataResponse, assetsDataTypes)).collect(Collectors.toList());
+        });
+        return responseList;
     }
 
     public static AssetDataResponse transfer2DataResponse(AssetsDataEntity dataEntity) {
@@ -151,7 +154,17 @@ public class AssetsSupport {
     }*/
 
     public static List<AssetsFileResponse> transfer2FileResponseList(List<AssetsFileEntity> fileEntities, int totalCount, List<DictEntity> filesType) {
-        return fileEntities.stream().map(entity -> tansfer2FileReponse(entity, totalCount)).map(assetsFileResponse -> fillAssetFileTypeName(assetsFileResponse, filesType)).collect(Collectors.toList());
+        List<AssetsFileResponse> responseList = Lists.newArrayList();
+        Map<Integer, List<AssetsFileEntity>> assetsMap = fileEntities.stream().collect(Collectors.groupingBy(AssetsFileEntity::getFileType));
+        assetsMap.entrySet().stream().forEach(e -> {
+            AssetsFileResponse response = new AssetsFileResponse();
+            response.setFileTypeId(e.getKey());
+            fillAssetFileTypeName(response, filesType);
+            response.setCount(e.getValue().stream().collect(Collectors.summingLong(v -> v.getCount())));
+            responseList.add(response);
+        });
+        return responseList;
+        //return fileEntities.stream().map(entity -> tansfer2FileReponse(entity, totalCount)).map(assetsFileResponse -> fillAssetFileTypeName(assetsFileResponse, filesType)).collect(Collectors.toList());
     }
 
     public static AssetsFileResponse tansfer2FileReponse(AssetsFileEntity entity, int totalCount) {
@@ -194,6 +207,15 @@ public class AssetsSupport {
         response.setAssertType3(entities.stream().filter(e -> e.getAssetsType() == 3).map(e -> e.getCount()).reduce(0, Integer::sum));
         response.setAssertType4(entities.stream().filter(e -> e.getAssetsType() == 4).map(e -> e.getCount()).reduce(0, Integer::sum));
         response.setAssertType5(entities.stream().filter(e -> e.getAssetsType() == 5).map(e -> e.getCount()).reduce(0, Integer::sum));
+        return response;
+    }
+
+    public static ImportantAssetsResponse transfer2ImportanResponse(ImportantAssets assets, List<DictEntity> dicts) {
+        ImportantAssetsResponse response = new ImportantAssetsResponse();
+        response.setImportantAssetsType(assets.getImportantAssetsType());
+        response.setImportantAssetName(assets.getName());
+        String s = dicts.stream().filter(dict -> dict.getKey() == String.valueOf(assets.getImportantAssetsType())).findAny().map(DictEntity::getValue).orElse("");
+        response.setImportantAssetTypeName(s);
         return response;
     }
 }

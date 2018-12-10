@@ -13,11 +13,10 @@ import java.util.List;
 @ApiModel
 @Data
 public class AssetsDashboardResponse {
-
     private List<AssetsSurvayResponse> assetsSurvayResponses;
     private List<AssetUnitResponse> assertUnitResponses;
     private List<AssetsAccountResponse> assetsAccountResponses;
     private List<AssetDataResponse> assetDataResponses;
     private List<AssetsFileResponse> assetsFileResponses;
-
+    private List<ImportantAssetsResponse> importantAssetsResponses;
 }

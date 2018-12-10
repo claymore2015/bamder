@@ -6,6 +6,7 @@ import com.claymore.bamder.common.domain.PageResult;
 import com.claymore.bamder.cybersecurity.assets.domain.AssetsCityResponse;
 import com.claymore.bamder.cybersecurity.assets.domain.AssetsDashboardResponse;
 import com.claymore.bamder.cybersecurity.assets.domain.AssetsDistrictResponse;
+import com.claymore.bamder.cybersecurity.assets.domain.ImportantAssetsResponse;
 import com.claymore.bamder.cybersecurity.assets.entity.*;
 import com.claymore.bamder.cybersecurity.assets.repository.*;
 import com.claymore.bamder.cybersecurity.assets.support.AssetsSupport;
@@ -21,6 +22,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author li.zhuo
@@ -51,6 +53,9 @@ public class AssetsController {
 
     @Autowired
     private DictRepository dictRepository;
+
+    @Autowired
+    private ImportantAssetsRepository importantAssetsRepository;
 
     @PostMapping("/dashboard")
     @ApiOperation(value = "资产分布dashboard页所有数据", produces = "POST", response = AssetsDashboardResponse.class)
@@ -92,7 +97,11 @@ public class AssetsController {
         //assemble
         response.setAssetsFileResponses(AssetsSupport.transfer2FileResponseList(assetsFiles, totalFiles, assetsFileTypes));
 
-
+        //重要资产
+        List<DictEntity> importantAssetsType = dictRepository.findByKey(DictConstant.IMPORTANT_ASSETS_TYPE);
+        List<ImportantAssets> all = importantAssetsRepository.findAll();
+        List<ImportantAssetsResponse> importantAssetsResponseList = all.stream().map(important -> AssetsSupport.transfer2ImportanResponse(important, importantAssetsType)).collect(Collectors.toList());
+        response.setImportantAssetsResponses(importantAssetsResponseList);
         return new BaseResponse<>(response) ;
     }
 

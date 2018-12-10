@@ -13,4 +13,6 @@ public class DictConstant {
     public static final String ASSETS_DATA_TYPE = "assets_data_type";
 
     public static final String ASSETS_FILE_TYPE = "assets_file_type";
+
+    public static final String IMPORTANT_ASSETS_TYPE = "important_assets_type";
 }

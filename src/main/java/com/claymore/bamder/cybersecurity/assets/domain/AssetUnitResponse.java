@@ -17,13 +17,13 @@ public class AssetUnitResponse {
     @ApiModelProperty("单位名称")
     private String unitName;
     @ApiModelProperty("涉密终端数量")
-    private Long assetsType1;
+    private long assetsType1;
     @ApiModelProperty("办公终端数量")
-    private Long assetsType2;
+    private long assetsType2;
     @ApiModelProperty("非密数据库数量")
-    private Long assetsType3;
+    private long assetsType3;
     @ApiModelProperty("门户网站")
-    private Long assetsType4;
+    private long assetsType4;
     @ApiModelProperty("检测器")
-    private Long assetsType5;
+    private long assetsType5;
 }

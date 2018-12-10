@@ -10,7 +10,7 @@
   </appender>
 
   <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <file>${log_home}/baas.log</file>
+    <file>${log_home}/bamder.log</file>
     <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
       <!-- rollover daily -->
       <fileNamePattern>${log_home}/baas-%d{yyyy-MM-dd}.%i.log</fileNamePattern>

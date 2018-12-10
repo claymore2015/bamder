@@ -15,7 +15,7 @@ public class AlarmGjqmTrojanProsEntity {
     private Date day;
     private String trojanid;
     private String name;
-    private Byte isSim;
+    private Integer isSim;
     private Long alarmCount;
 
     @Id
@@ -50,11 +50,11 @@ public class AlarmGjqmTrojanProsEntity {
 
     @Basic
     @Column(name = "is_sim")
-    public Byte getIsSim() {
+    public Integer getIsSim() {
         return isSim;
     }
 
-    public void setIsSim(Byte isSim) {
+    public void setIsSim(Integer isSim) {
         this.isSim = isSim;
     }
 
