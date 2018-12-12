@@ -14,6 +14,6 @@ import java.util.List;
  * @since 1.0.0
  */
 public interface EventsInfoRepository extends JpaRepository<EventsInfoEntity, Long> {
-    @Query(value = "select e from EventsInfoEntity e where e.province=:province and (:city is null or e.city=:city) and (:district is null or e.district=:district) and e.eventTime >=:day ")
+    @Query(value = "select e from EventsInfoEntity e where e.province=:province and (:city is null or e.city=:city) and (:district is null or e.district=:district) and e.eventTime >=:day order by e.eventTime desc")
     List<EventsInfoEntity> findByProvinceAndCityAndDistrictAndDay(@Param("province") String province, @Param("city") String city, @Param("district") String district, @Param("day") Date day);
 }

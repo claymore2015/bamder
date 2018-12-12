@@ -1,11 +1,16 @@
 package com.claymore.bamder.cybersecurity.event.support;
 
+import com.claymore.bamder.cybersecurity.event.entity.EventsInfoEntity;
+import com.claymore.bamder.cybersecurity.event.enums.ChuzhiStatus;
+import com.claymore.bamder.cybersecurity.event.enums.EventLevel;
+import com.claymore.bamder.cybersecurity.event.enums.EventType;
+import com.claymore.bamder.cybersecurity.gj.domain.event.response.Event;
+
 /**
  * @author li.zhuo
  * @create 2018/11/28 9:33 PM
  * @since 1.0.0
  */
-@Deprecated
 public class EventSupport {
 
     /*public static EventResponse transfer2EventResponse(List<EventsInfoEntity> eventsInfo) {
@@ -39,7 +44,7 @@ public class EventSupport {
 
     public static List<Event> transfer2EventList(List<EventsInfoEntity> eventsInfo) {
         return eventsInfo.stream().map(EventSupport::transfer2Event).collect(Collectors.toList());
-    }
+    }*/
 
     public static Event transfer2Event(EventsInfoEntity entity) {
         Event event = new Event();
@@ -49,7 +54,7 @@ public class EventSupport {
         event.setContent(entity.getContent());
         event.setEventTime(entity.getEventTime());
         return event;
-    }*/
+    }
 
 
 }

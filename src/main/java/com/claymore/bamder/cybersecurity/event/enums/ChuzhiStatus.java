@@ -2,9 +2,9 @@ package com.claymore.bamder.cybersecurity.event.enums;
 
 public enum ChuzhiStatus {
 
-    NO_PROCESS(1, "未处置"),
-    PROCESSING(2, "在处置"),
-    FINISH(3, "已完成")
+    NO_PROCESS(0, "未处置"),
+    PROCESSING(1, "在处置"),
+    FINISH(2, "已完成")
     ;
     private int value;
     private String desc;

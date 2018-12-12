@@ -97,7 +97,7 @@ public class AssetsSupport {
                     response.setAssetsType5(response.getAssetsType5() + assetUnitEntity.getCount());
                 }
                 //response.setUnitName();
-                Optional<UnitsEntity> first = unitsEntities.stream().filter(unit -> unit.getUnitId() == Long.valueOf(s)).findFirst();
+                Optional<UnitsEntity> first = unitsEntities.stream().filter(unit -> unit.getUnitId().equals(Long.valueOf(s))).findFirst();
                 if (first.isPresent()) {
                     response.setUnitName(first.get().getUnitName());
                 }

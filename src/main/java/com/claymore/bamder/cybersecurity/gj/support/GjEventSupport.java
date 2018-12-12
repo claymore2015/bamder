@@ -80,6 +80,7 @@ public class GjEventSupport {
 
         list.add(wgxwTransfer12);
         list.add(wgxwTransfer13);
+        list.add(wgxwTransfer24);
         list.add(wgxwTransfer34);
         list.add(wgwxTransfer14);
         return list;
@@ -118,6 +119,7 @@ public class GjEventSupport {
 
         list.add(gjqmTransfer12);
         list.add(gjqmTransfer13);
+        list.add(gjqmTransfer24);
         list.add(gjqmTransfer34);
         list.add(gjqmTransfer14);
         return list;
@@ -157,6 +159,7 @@ public class GjEventSupport {
 
         list.add(mbsjTransfer12);
         list.add(mbsjTransfer13);
+        list.add(mbsjTransfer24);
         list.add(mbsjTransfer34);
         list.add(mbsjTransfer14);
         return list;
@@ -194,6 +197,7 @@ public class GjEventSupport {
 
         list.add(txzdTransfer12);
         list.add(txzdTransfer13);
+        list.add(txzdTransfer24);
         list.add(txzdTransfer34);
         list.add(txzdTransfer14);
         return list;
@@ -219,6 +223,10 @@ public class GjEventSupport {
         PointTransfer totalTransfer12 = new PointTransfer();
         totalTransfer12.setSourcePoint(1);
         totalTransfer12.setTargetPoint(2);
+
+        PointTransfer totalTransfer13 = new PointTransfer();
+        totalTransfer13.setSourcePoint(1);
+        totalTransfer13.setTargetPoint(3);
 
         PointTransfer totalTransfer24 = new PointTransfer();
         totalTransfer24.setSourcePoint(2);
@@ -246,10 +254,15 @@ public class GjEventSupport {
             totalTransfer14.setPointValue(collect.get(1).get(4).stream().collect(Collectors.summingLong(value -> value.getPointValue())));
         }
 
+        if (Objects.nonNull(collect.get(1)) && Objects.nonNull(collect.get(1).get(3))) {
+            totalTransfer13.setPointValue(collect.get(1).get(3).stream().collect(Collectors.summingLong(value -> value.getPointValue())));
+        }
+
         list.add(totalTransfer12);
         list.add(totalTransfer24);
         list.add(totalTransfer34);
         list.add(totalTransfer14);
+        list.add(totalTransfer13);
         return list;
     }
 

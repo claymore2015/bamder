@@ -70,7 +70,7 @@ public class AssetsController {
 
         //query unit
         List<AssetsUnitEntity> assetsUnits = assetsUnitRepository.findByProvinceAndCityAndDistrict(request.getProvinceId(), request.getCityId(), request.getDistrictId());
-        List<UnitsEntity> units = unitsRepository.findAll();
+        List<UnitsEntity> units = unitsRepository.findByProvinceAndCityAndDistrict(request.getProvinceId(), request.getCityId(), request.getDistrictId());
         //assemble
         response.setAssertUnitResponses(AssetsSupport.transfer2UnitResponseList(assetsUnits, units));
 

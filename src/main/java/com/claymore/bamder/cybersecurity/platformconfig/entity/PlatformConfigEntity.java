@@ -21,4 +21,6 @@ public class PlatformConfigEntity {
     private String configKey;
     @Column(name = "config_value")
     private String configValue;
+    @Column(name = "type")
+    private String type;
 }

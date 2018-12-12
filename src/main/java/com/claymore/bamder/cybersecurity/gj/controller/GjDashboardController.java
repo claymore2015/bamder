@@ -3,6 +3,7 @@ package com.claymore.bamder.cybersecurity.gj.controller;
 import com.claymore.bamder.common.domain.BaseResponse;
 import com.claymore.bamder.cybersecurity.event.entity.EventsInfoEntity;
 import com.claymore.bamder.cybersecurity.event.repository.EventsInfoRepository;
+import com.claymore.bamder.cybersecurity.event.support.EventSupport;
 import com.claymore.bamder.cybersecurity.gj.domain.district.GjCityResponse;
 import com.claymore.bamder.cybersecurity.gj.domain.district.GjDistrictResponse;
 import com.claymore.bamder.cybersecurity.gj.domain.event.request.EventRequest;
@@ -117,8 +118,8 @@ public class GjDashboardController {
         response.setTxzdTransfer(GjEventSupport.transferToTxzdPoint(eventsInfo, txzdEntities));
         response.setWgxwTransfer(GjEventSupport.transferToMbsjPoint(eventsInfo, mbsjEntities));
         response.setTotalTransfer(GjEventSupport.transferToTotalPoint(response.getWgxwTransfer(), response.getMbsjTransfer(), response.getTxzdTransfer(), response.getGjqmTransfer()));
-
-        return new BaseResponse<>(new EventResponse());
+        response.setEvents(eventsInfo.stream().map(EventSupport::transfer2Event).collect(Collectors.toList()));
+        return new BaseResponse<>(response);
     }
 
     @PostMapping(value = "/district")
@@ -129,19 +130,19 @@ public class GjDashboardController {
         Date staticDate = new DateTime(new Date()).minusDays(request.getDays()).withTimeAtStartOfDay().toDate();
         List<ChuzhiWgxwEntity> wgxwEntities = wgxwRepository.findByProvinceAndCityAndDistrictAndDay(request.getProvinceId(), request.getCityId(), null, staticDate);
 
-        Map<String, List<ChuzhiWgxwEntity>> wgxmMap = wgxwEntities.stream().collect(Collectors.groupingBy(ChuzhiWgxwEntity::getCity));
+        Map<String, List<ChuzhiWgxwEntity>> wgxmMap = wgxwEntities.stream().collect(Collectors.groupingBy(ChuzhiWgxwEntity::getDistrict));
         List<GjDistrictResponse> cityWgxw = wgxmMap.entrySet().stream().map(entry -> GjSupport.wgxwMapToDistrict(entry.getKey(), entry.getValue())).collect(Collectors.toList());
 
         List<ChuzhiGjqmEntity> gjqmEntities = gjqmRepository.findByProvinceAndCityAndDistrictAndDay(request.getProvinceId(), request.getCityId(), null, staticDate);
-        Map<String, List<ChuzhiGjqmEntity>> gjqmMap = gjqmEntities.stream().collect(Collectors.groupingBy(ChuzhiGjqmEntity::getCity));
+        Map<String, List<ChuzhiGjqmEntity>> gjqmMap = gjqmEntities.stream().collect(Collectors.groupingBy(ChuzhiGjqmEntity::getDistrict));
         List<GjDistrictResponse> cityGjqm = gjqmMap.entrySet().stream().map(entry -> GjSupport.gjqmMapToDistrict(entry.getKey(), entry.getValue())).collect(Collectors.toList());
 
         List<ChuzhiTxzdEntity> txzdEntities = txzdRepository.findByProvinceAndCityAndDistrictAndDay(request.getProvinceId(), request.getCityId(), null, staticDate);
-        Map<String, List<ChuzhiTxzdEntity>> txzdMap = txzdEntities.stream().collect(Collectors.groupingBy(ChuzhiTxzdEntity::getCity));
+        Map<String, List<ChuzhiTxzdEntity>> txzdMap = txzdEntities.stream().collect(Collectors.groupingBy(ChuzhiTxzdEntity::getDistrict));
         List<GjDistrictResponse> cityTxzd = txzdMap.entrySet().stream().map(entry -> GjSupport.txzdMapToDistrict(entry.getKey(), entry.getValue())).collect(Collectors.toList());
 
         List<ChuzhiMbsjEntity> mbsjEntities = mbsjRepository.findByProvinceAndCityAndDistrictAndDay(request.getProvinceId(), request.getCityId(), null, staticDate);
-        Map<String, List<ChuzhiMbsjEntity>> mbsjMap = mbsjEntities.stream().collect(Collectors.groupingBy(ChuzhiMbsjEntity::getCity));
+        Map<String, List<ChuzhiMbsjEntity>> mbsjMap = mbsjEntities.stream().collect(Collectors.groupingBy(ChuzhiMbsjEntity::getDistrict));
         List<GjDistrictResponse> cityMbsj = mbsjMap.entrySet().stream().map(entry -> GjSupport.mbsjMapToDistrict(entry.getKey(), entry.getValue())).collect(Collectors.toList());
 
 

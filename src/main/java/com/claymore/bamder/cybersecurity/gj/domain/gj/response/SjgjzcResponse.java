@@ -1,5 +1,6 @@
 package com.claymore.bamder.cybersecurity.gj.domain.gj.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -19,6 +20,7 @@ import java.util.Date;
 @NoArgsConstructor
 @ApiModel
 public class SjgjzcResponse {
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @ApiModelProperty(value = "时间")
     private Date sj;
     @ApiModelProperty(value = "告警处置数量")
